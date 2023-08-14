@@ -1,26 +1,28 @@
+// app.js
 require("dotenv").config();
 require("express-async-errors");
 const express = require("express");
 const app = express();
 
-// connectDB
+// Connect to the database
 const connectDB = require("./db/connect");
-// routers
+
+// Routers
 const authRouter = require("./routes/auth");
 const jobsRouter = require("./routes/jobs");
 
-// error handler
+// Error handling middlewares
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
 
+// Middleware setup
 app.use(express.json());
-// extra packages
 
-// routes
+// Use routers
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/jobs", jobsRouter);
-app.use("/api/v1/jobs/:id", jobsRouter);
 
+// Use error handling middlewares
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
@@ -33,7 +35,7 @@ const start = async () => {
       console.log(`Server is listening on port ${port}...`)
     );
   } catch (error) {
-    console.log(error);
+    console.error("Error starting the server:", error);
   }
 };
 

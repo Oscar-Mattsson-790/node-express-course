@@ -6,6 +6,7 @@ const app = express();
 
 // Connect to the database
 const connectDB = require("./db/connect");
+const authenticateUser = require("./middleware/error-handler");
 
 // Routers
 const authRouter = require("./routes/auth");
@@ -20,7 +21,7 @@ app.use(express.json());
 
 // Use routers
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/jobs", jobsRouter);
+app.use("/api/v1/jobs", authenticateUser, jobsRouter);
 
 // Use error handling middlewares
 app.use(notFoundMiddleware);
